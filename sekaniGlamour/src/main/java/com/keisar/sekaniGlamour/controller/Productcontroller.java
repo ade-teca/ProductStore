@@ -7,6 +7,7 @@ import com.keisar.sekaniGlamour.model.Product;
 import com.keisar.sekaniGlamour.repository.ProductRepository;
 import com.keisar.sekaniGlamour.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,28 +19,42 @@ import java.util.List;
 @RequestMapping("/api")
 public class Productcontroller {
 
+    @Autowired
     private final ProductService productService;
 
+    @PostMapping("/products")
+    ResponseEntity<Void> addProduct(@RequestBody ProductRequestDTO request){
+        productService.addProduct(request);
+        return ResponseEntity.ok().build();
+    }
+    @PutMapping("/products")
+    ResponseEntity<Void> updateProduct(@RequestBody ProductRequestDTO request){
+        productService.updateProduct(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/products/id/{id}")
+    ResponseEntity<Void> deleteProduct(@PathVariable Long id){
+        productService.deleteProduct(id);
+        return ResponseEntity.ok().build();
+
+    }
+
+    //Querying
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductResponseDTO>> getProducts() {
-        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+    ResponseEntity<List<ProductResponseDTO>> getAllProducts(){
+        List<ProductResponseDTO> productResponseDTOS = productService.getAllProducts();
+        return ResponseEntity.ok(productResponseDTOS);
     }
-
-    @GetMapping("/products/{id}")
-    public ProductResponseDTO getProduct(@PathVariable Long id) {
-        return productService.getProductById(id);
-    }
-
-    @PostMapping("/products")
-    public ResponseEntity<ProductResponseDTO> create(@RequestBody ProductRequestDTO request) {
-        return ResponseEntity.ok(productService.createProduct(request));
-    }
-
-    @PutMapping("/products/{id}")
-    public ResponseEntity<ProductResponseDTO> update(@PathVariable Long id, @RequestBody ProductRequestDTO request) {
-
-        ProductResponseDTO productResponseDTO = productService.updateProduct(id, request);
+    @GetMapping("/products/id/{id}")
+    ResponseEntity<ProductResponseDTO> getProductById(@PathVariable Long id){
+        ProductResponseDTO productResponseDTO = productService.getProductById(id);
         return ResponseEntity.ok(productResponseDTO);
+    }
+
+    ResponseEntity<List<ProductResponseDTO>> getProductByName(String name){
+        List<ProductResponseDTO> productResponseDTOS = productService.getProductByName(name);
+        return ResponseEntity.ok(productResponseDTOS);
     }
 }

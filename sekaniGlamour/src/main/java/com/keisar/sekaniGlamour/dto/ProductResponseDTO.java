@@ -8,12 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductResponseDTO {
-    private Long id;
     private String name;
     private double price;
     private String category;
     private String brand;
     private boolean available;
     private int quantity;
-    private String formattedPrice; // e.g., "$99.99"
+
 }

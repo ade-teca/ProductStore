@@ -6,12 +6,6 @@ import com.keisar.sekaniGlamour.dto.ProductResponseDTO;
 import java.util.List;
 
 public interface ProductService {
-    ProductResponseDTO createProduct(ProductRequestDTO request);
-
-
-
-
-    ProductResponseDTO updateProduct(Long id, ProductRequestDTO request);
 
     void addProduct(ProductRequestDTO request);
     void updateProduct(ProductRequestDTO request);
@@ -21,5 +15,5 @@ public interface ProductService {
 
     List<ProductResponseDTO> getAllProducts();
     ProductResponseDTO getProductById(Long id);
-    ProductResponseDTO getProductByName(String name);
+    List<ProductResponseDTO> getProductByName(String name);
 }
